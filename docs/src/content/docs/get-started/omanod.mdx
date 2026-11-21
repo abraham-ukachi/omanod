@@ -1,0 +1,31 @@
+---
+title: OmaNod (Rust rewrite)
+description: Run the Omarchy-native Rust client from this fork and see which providers work today.
+editUrl: false
+lastUpdated: false
+---
+
+OmaNod is the Linux/Omarchy rewrite of nod in this fork. The Rust workspace lives in `app/` and `crates/omanod-core/`; the original TypeScript implementation is kept for reference while the rewrite catches up.
+
+## Run it
+
+```sh
+cargo build --release
+cargo run -p omanod
+```
+
+Provider keys come from the environment (`XAI_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, and so on). Ollama on `127.0.0.1:11434` is the default and needs no key.
+
+Open **MODELS → REFRESH MODELS** to fetch the provider's model list, then pick a model. Conversations are stored in `$XDG_DATA_HOME/omanod/omanod.db`; settings live in `~/.config/omanod/config.toml`.
+
+## Scope
+
+The first milestone is chat, streaming model calls and Omarchy theming. OpenAI-compatible, Anthropic and Gemini endpoints stream today. Providers that need vendor-specific auth or routing are listed as *not wired* in the app; the rest of nod's architecture in [`docs/`](/how-it-works/architecture/) remains the design reference for later milestones.
+
+## Themes
+
+Selecting **Omarchy** follows `~/.local/state/omarchy/current/theme/colors.toml` live. The 23 built-in themes use the same three-color mixing system as Omacalc.
+
+## Licensing
+
+This fork inherits n8n GmbH's Apache-2.0 license and `NOTICE`. New Rust code is MIT, © 2026 Abraham Ukachi.

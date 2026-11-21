@@ -1,288 +1,126 @@
 <p align="center">
-  <a href="https://nod.n8n.io#gh-dark-mode-only"><img src="docs/src/assets/readme/hero-dark.webp" alt="n8n presents Nod: open source personal agent with its own computer" width="100%" /></a>
-  <a href="https://nod.n8n.io#gh-light-mode-only"><img src="docs/src/assets/readme/hero.webp" alt="n8n presents Nod: open source personal agent with its own computer" width="100%" /></a>
+  <b>OmaNod</b> is an Omarchy-native personal agent, written in <b>Rust</b> 🦀. It is a fork of <a href="https://github.com/n8n-io/nod">n8n-io/nod</a>, rebuilt from the ground up for Linux desktops that already have a theme, a terminal, and no patience for Electron.
 </p>
 
 <p align="center">
-  <strong>It chases invoices, preps your calls and cancels trials, on real websites.</strong><br />
-  It runs on your machine with the model you choose, and asks before it acts for you.
+  <a href="https://github.com/abraham-ukachi/omanod/releases"><b>Releases &rarr;</b></a>
 </p>
 
-<p align="center">
-  <a href="https://github.com/n8n-io/nod/releases/latest/download/nod-arm64.dmg#gh-dark-mode-only"><img src="docs/src/assets/readme/button-mac-dark.webp" alt="Download for Mac" width="219" /></a>
-  <a href="https://github.com/n8n-io/nod/releases/latest/download/nod-arm64.dmg#gh-light-mode-only"><img src="docs/src/assets/readme/button-mac.webp" alt="Download for Mac" width="219" /></a>
-  <a href="https://github.com/n8n-io/nod/releases/latest/download/nod-Setup-x64.exe#gh-dark-mode-only"><img src="docs/src/assets/readme/button-windows-dark.webp" alt="Download for Windows" width="259" /></a>
-  <a href="https://github.com/n8n-io/nod/releases/latest/download/nod-Setup-x64.exe#gh-light-mode-only"><img src="docs/src/assets/readme/button-windows.webp" alt="Download for Windows" width="259" /></a>
-  <a href="https://nod.n8n.io/docs/#gh-dark-mode-only"><img src="docs/src/assets/readme/button-docs-dark.webp" alt="Read the docs" width="190" /></a>
-  <a href="https://nod.n8n.io/docs/#gh-light-mode-only"><img src="docs/src/assets/readme/button-docs.webp" alt="Read the docs" width="190" /></a>
-</p>
+# `omanod`
 
-<p align="center">
-  <sub>macOS 14+ (Apple silicon or <a href="https://github.com/n8n-io/nod/releases/latest/download/nod-x64.dmg">Intel</a>) · Windows 11 preview · <a href="https://nod.n8n.io/docs/get-started/install-desktop/#linux">Linux x64 preview</a> · Free and open source · ChatGPT Plus or Pro, or an AI key</sub>
-</p>
+> IMPORTANT: This is a work in progress. The first milestone is **chat + models + themes**. Nod's browser, sandbox, scheduling and channel integrations are on the roadmap, not in this build yet.
 
-<p align="center">
-  <a href="https://github.com/n8n-io/nod/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/n8n-io/nod?style=flat-square&labelColor=191919&color=ff91ac&label=release" /></a>
-  <a href="https://github.com/n8n-io/nod"><img alt="GitHub stars" src="https://img.shields.io/github/stars/n8n-io/nod?style=flat-square&labelColor=191919&color=ff91ac&logo=github" /></a>
-  <a href="LICENSE"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/license-Apache_2.0-ff91ac?style=flat-square&labelColor=191919" /></a>
-  <a href="https://www.bestpractices.dev/projects/16526"><img alt="OpenSSF Best Practices" src="https://img.shields.io/cii/level/16526?style=flat-square&labelColor=191919&color=ff91ac&label=openssf" /></a>
-  <a href="https://discord.gg/n8n"><img alt="Discord" src="https://img.shields.io/badge/discord-join_us-ff91ac?style=flat-square&labelColor=191919&logo=discord&logoColor=white" /></a>
-  <img alt="Status: research preview" src="https://img.shields.io/badge/status-research_preview-ff91ac?style=flat-square&labelColor=191919" />
-</p>
-
-<br />
 
-<p align="center">
-  <a href="docs/src/assets/readme/heading-machine-dark.webp#gh-dark-mode-only"><img src="docs/src/assets/readme/heading-machine-dark.webp" alt="On your machine, on your word" width="586" /></a>
-  <a href="docs/src/assets/readme/heading-machine.webp#gh-light-mode-only"><img src="docs/src/assets/readme/heading-machine.webp" alt="On your machine, on your word" width="586" /></a>
-</p>
+## What is OmaNod? 🤖
 
-<p align="center">It gets on with the work across Gmail, Calendar, Slack, Notion, and the web,<br />and asks before it speaks for you.</p>
+Picture your desktop 🖥️: the terminal has a theme, the browser has a theme, even the music player has a theme — and then you open an AI app and it looks like it was designed in a different universe 😅.
 
-[![Walk into every call prepared. Nod creates a one-page call brief from your messages, calendar, and the client's latest news.](docs/src/assets/readme/call-brief.webp)](https://nod.n8n.io/docs/use/workspace/)
+**OmaNod** is the personal agent that looks like it shipped with [Omarchy](https://omarchy.org). It lives in a dense three-zone window — conversations on the left, messages in the middle, composer at the bottom — and speaks over the model provider of your choice. It wears every **Omarchy theme** 🎨 by reading `colors.toml` live: background, foreground, accent, and a few fixed mixes. iA Writer Mono S, bundled under the SIL OFL 1.1, keeps the text calm.
 
-<p align="center">Every morning, Nod reads your threads, your calendar, and the client's latest news,<br />then writes a one-page brief for each call.</p>
+The big idea from [nod](https://nod.n8n.io) stays: **your machine, your model, your word**. The first release keeps the chat surface and the model catalog; the trust, browser and computer-use layers come next.
 
-[![Waits for your Nod. Nod drafts a Slack reply from your pricing sheet, asks for approval, and sends it after you say yes.](docs/src/assets/readme/approval.webp)](https://nod.n8n.io/docs/trust/approvals/)
+> MOTTO: Native first, features second 😜
 
-<p align="center">It drafts the reply you owe from your own pricing sheet,<br />and sends it only after you say yes.</p>
-
-[![Hear about it when it matters. A scheduled price check reports a change from $1,200 to $1,500.](docs/src/assets/readme/price-watch.webp)](https://nod.n8n.io/docs/use/schedules/)
-
-<p align="center">It checks a page on your schedule and tells you only when something changes.</p>
-
-<br />
-
-<p align="center">
-  <a href="docs/src/assets/readme/heading-hard-ones-dark.webp#gh-dark-mode-only"><img src="docs/src/assets/readme/heading-hard-ones-dark.webp" alt="Hand it the hard ones" width="421" /></a>
-  <a href="docs/src/assets/readme/heading-hard-ones.webp#gh-light-mode-only"><img src="docs/src/assets/readme/heading-hard-ones.webp" alt="Hand it the hard ones" width="421" /></a>
-</p>
-
-<p align="center">Jobs that eat an afternoon of tabs, logins, and forms.<br />Nod has its own computer and browser, so it finishes them.</p>
-
-<p align="center">
-  <img src="docs/src/assets/readme/use-cases.webp" alt="Six errands Nod handles: chase an invoice until it's paid, get your money back from a subscription, turn client requests into Linear tasks, report your weekly numbers, file month-end paperwork, and book the team offsite." width="100%" />
-</p>
-
-<br />
-
-<p align="center">
-  <a href="docs/src/assets/readme/heading-memory-dark.webp#gh-dark-mode-only"><img src="docs/src/assets/readme/heading-memory-dark.webp" alt="A memory like an elephant" width="508" /></a>
-  <a href="docs/src/assets/readme/heading-memory.webp#gh-light-mode-only"><img src="docs/src/assets/readme/heading-memory.webp" alt="A memory like an elephant" width="508" /></a>
-</p>
-
-<p align="center">Say once that Anna, not Bob, handles invoices. It remembers.</p>
-
-<table>
-  <tr>
-    <td width="50%"><strong>Every note, visible.</strong><br />See, edit, or forget each one, with the message it came from.</td>
-    <td width="50%"><strong>Drafts that sound like you.</strong><br />Learns your style from sent emails, with no names or numbers.</td>
-  </tr>
-  <tr>
-    <td><strong>Tell it once.</strong><br />Say something changed, and it uses the new fact from then on.</td>
-    <td><strong>It learns how to do a task.</strong><br />Reuses the steps, and fixes them when a site changes.</td>
-  </tr>
-</table>
-
-<p align="center">
-  It learns about you only from your own messages, never from the pages or emails it reads.<br />
-  <a href="https://nod.n8n.io/docs/how-it-works/memory/">How memory works</a>
-</p>
-
-<br />
-
-<p align="center">
-  <a href="docs/src/assets/readme/heading-rules-dark.webp#gh-dark-mode-only"><img src="docs/src/assets/readme/heading-rules-dark.webp" alt="Your machine. Your model. Your rules." width="688" /></a>
-  <a href="docs/src/assets/readme/heading-rules.webp#gh-light-mode-only"><img src="docs/src/assets/readme/heading-rules.webp" alt="Your machine. Your model. Your rules." width="688" /></a>
-</p>
 
-- **Runs on your computer or server.** Files, memory, and saved logins stay there. Your model provider gets what each task needs.
-- **Uses the model you choose.** OpenAI, Anthropic, Gemini, OpenRouter, Bedrock, Vertex AI, Azure, 20+ more, or your own server. Or sign in with ChatGPT Plus or Pro.
-- **Follows your rules.** The server checks each app action, and each website step that can change something, against your request and rules. Anything they don't cover waits for your yes.
-- **Keeps secrets out of the model.** Vault enters passwords, codes, and cards privately on the website.
-- **Shows what it did.** Every action and sign-in is in Usage, with costs and a monthly limit on API models.
+## Status 🧪
 
-<p align="center">
-  <a href="https://nod.n8n.io/docs/trust/">How trust works</a> · <a href="https://nod.n8n.io/docs/trust/privacy/">Where your data goes</a> · <a href="https://nod.n8n.io/docs/trust/security-model/">Security model</a>
-</p>
+| Milestone | State |
+|:----------|:------|
+| 1 · Chat + models + themes | ✅ in progress |
+| 2 · Tools, skills, local files | ⏳ next |
+| 3 · Trust, approvals, vault | ⏳ next |
+| 4 · Browser + computer use | ⏳ later |
+| 5 · Channels, schedules, notifications | ⏳ later |
 
-<br />
 
-<a name="benchmarks"></a>
+## What works today ✨
 
-<p align="center">
-  <a href="docs/src/assets/readme/heading-measured-dark.webp#gh-dark-mode-only"><img src="docs/src/assets/readme/heading-measured-dark.webp" alt="Measured, not promised" width="476" /></a>
-  <a href="docs/src/assets/readme/heading-measured.webp#gh-light-mode-only"><img src="docs/src/assets/readme/heading-measured.webp" alt="Measured, not promised" width="476" /></a>
-</p>
+| No. | Feature | What it does |
+|:----|:--------|:-------------|
+| 1 | *`Chat`* | New conversation, select, delete, and persisted history in SQLite |
+| 2 | *`Streaming`* | Token-by-token replies with a live caret and token usage in the status bar |
+| 3 | *`Providers`* | One catalog covering nod's 38 providers plus local Ollama and xAI Grok, with key status from the environment |
+| 4 | *`Models`* | Fetches `/models` on demand, remembers the selected provider and model |
+| 5 | *`Themes`* | Live Omarchy `colors.toml` plus 23 built-in themes, switched in Settings |
+| 6 | *`Shortcuts`* | `Enter` sends, `Shift+Enter` is a newline, `Ctrl+1/2/3` switches views |
 
-<p align="center">We give Nod real errands in test apps and websites, then check what actually changed.</p>
 
-<table align="center">
-  <tr>
-    <td align="center" valign="top" width="25%"><h1>98%</h1><strong>tasks finished</strong><br /><sub>226 errands, 3 runs each</sub></td>
-    <td align="center" valign="top" width="25%"><h1>0</h1><strong>unsafe actions</strong><br /><sub>in those 678 runs</sub></td>
-    <td align="center" valign="top" width="25%"><h1>93.2%</h1><strong>memory recall</strong><br /><sub>LongMemEval-S</sub></td>
-    <td align="center" valign="top" width="25%"><h1>0 of 216</h1><strong>false memories</strong><br /><sub>WhisperBench attacks</sub></td>
-  </tr>
-</table>
+## Model providers 🔌
 
-<p align="center">
-  <a href="https://nod.n8n.io/docs/how-it-works/benchmarks/">How we measured this</a> · <a href="https://nod.n8n.io/docs/contribute/evals/">Run the evals yourself</a><br />
-  <sub>GPT-6.1 Sol, October 2026, in simulated accounts and websites. Test results, not a guarantee.</sub>
-</p>
+Keys are read from environment variables — they are never written into config or stored in SQLite. Local Ollama needs no key. OpenAI-compatible, Anthropic and Gemini endpoints stream today; providers that need vendor-specific auth or routing are listed with a *not wired* state until their client lands.
 
-<br />
+| Kind | Providers |
+|:-----|:----------|
+| OpenAI-compatible | Ollama (local), xAI Grok, OpenAI, OpenRouter, Groq, DeepSeek, Mistral, Together, Fireworks, Cerebras, Baseten, Moonshot, MiniMax, NVIDIA, Hugging Face, Z.ai, Vercel AI Gateway, generic compatible endpoint |
+| Anthropic | Anthropic (`ANTHROPIC_API_KEY`) |
+| Gemini | Google Gemini (`GEMINI_API_KEY`) |
+| Not wired yet | Azure, Bedrock, Vertex, Cloudflare, OpenCode, Qwen, Xiaomi, Kimi, Meta, Radius, Ant Ling |
 
-<p align="center">
-  <a href="docs/src/assets/readme/heading-hood-dark.webp#gh-dark-mode-only"><img src="docs/src/assets/readme/heading-hood-dark.webp" alt="Under the hood" width="328" /></a>
-  <a href="docs/src/assets/readme/heading-hood.webp#gh-light-mode-only"><img src="docs/src/assets/readme/heading-hood.webp" alt="Under the hood" width="328" /></a>
-</p>
 
-<p align="center">One Node process and a few Docker containers, all on the machine that runs Nod.</p>
+## Tech stack & versions 🧰
 
-```mermaid
-flowchart TB
-  you(["You<br/>app · Telegram · WhatsApp"]):::pink
-  server["Nod server<br/>Pi runtime · trust check<br/>Vault · memory · schedules"]:::pink
-  you --> server
-  server --> workspace["Linux workspace<br/>sandbox container"]
-  server --> browser["Chromium<br/>browser container"]
-  server --> db[("PostgreSQL")]
-  server -- "your key" --> model["Your model<br/>provider"]
-  server --> apps["Your apps<br/>Gmail · Slack · MCP"]
-  classDef pink fill:#ff91ac,stroke:#191919,color:#191919
-```
+Versions as built on 2026-11-22:
 
-- **Policy lives in the server, not the prompt.** The trust check, Vault, payments, and spending limits run in the server.
-- **Untrusted by default.** App, web, and browser results reach the model marked as data, not instructions.
-- **Keys stay out of the sandbox.** Provider keys never enter the workspace or the browser.
-- **Built with** TypeScript on Node.js 24, Fastify, React, PostgreSQL with pg-boss, the [Pi](https://github.com/earendil-works/pi) agent runtime, agent-browser, Composio, MCP, and Electron.
+| Tool | Version | Notes |
+|:-----|:--------|:------|
+| [Rust](https://www.rust-lang.org) | **stable** (1.99) | Edition 2021. Release profile: `opt-level = "s"`, LTO, stripped. |
+| [Slint](https://slint.dev) | **1.19** | The UI lives in [`app/ui/`](./app/ui). |
+| [ureq](https://github.com/algesten/ureq) | **2.12** | Blocking HTTP/SSE streaming clients, run off the UI thread. |
+| [rusqlite](https://github.com/rusqlite/rusqlite) | **0.32** | Threads, messages and settings in one local database. |
+| [iA Writer Mono](https://github.com/iaolo/iA-Fonts) | S | The font of Omacalc, bundled under the SIL OFL 1.1. |
 
-<p align="center">
-  <a href="https://nod.n8n.io/docs/how-it-works/architecture/">Architecture</a> · <a href="https://nod.n8n.io/docs/how-it-works/agent-runtime/">Agent runtime</a> · <a href="https://nod.n8n.io/docs/trust/security-model/">Security model</a>
-</p>
 
-<br />
+## How it works 🦀⚡
 
-<p align="center">
-  <a href="docs/src/assets/readme/heading-next-dark.webp#gh-dark-mode-only"><img src="docs/src/assets/readme/heading-next-dark.webp" alt="Next on the list" width="316" /></a>
-  <a href="docs/src/assets/readme/heading-next.webp#gh-light-mode-only"><img src="docs/src/assets/readme/heading-next.webp" alt="Next on the list" width="316" /></a>
-</p>
+| No. | Piece | File | What it does |
+|:----|:------|:-----|:-------------|
+| 1 | *`Themes`* | [crates/omanod-core/src/theme.rs](./crates/omanod-core/src/theme.rs) | Reads Omarchy's three colors and derives every surface, border and muted tone from fixed mixes |
+| 2 | *`Models`* | [crates/omanod-core/src/models.rs](./crates/omanod-core/src/models.rs) | The provider catalog: endpoint, key variable, protocol kind and an honest status |
+| 3 | *`Clients`* | [crates/omanod-core/src/client.rs](./crates/omanod-core/src/client.rs) | OpenAI-compatible, Anthropic and Gemini SSE streaming behind one `stream()` function |
+| 4 | *`Store`* | [crates/omanod-core/src/store.rs](./crates/omanod-core/src/store.rs) | SQLite threads, messages and settings under `$XDG_DATA_HOME/omanod` |
+| 5 | *`Config`* | [crates/omanod-core/src/config.rs](./crates/omanod-core/src/config.rs) | Theme, provider, model and compatible endpoint in `~/.config/omanod/config.toml` |
+| 6 | *`UI`* | [app/ui/app.slint](./app/ui/app.slint) | Sidebar, conversation, models and settings — in Slint |
+| 7 | *`App`* | [app/src/main.rs](./app/src/main.rs) | Wires the UI to the core; a small event loop carries streamed tokens back to the message list |
 
-- **Managed hosting.** An always-on Nod, hosted for you.
-- **Make phone calls.** For the errands that still need a voice.
-- **Nod for your team.** Share one Nod, with its apps and memory.
-- **Make it your own.** Add your own skills and tools without touching the core.
 
-<br />
-
-<p align="center">
-  <a href="docs/src/assets/readme/heading-answers-dark.webp#gh-dark-mode-only"><img src="docs/src/assets/readme/heading-answers-dark.webp" alt="Straight answers" width="355" /></a>
-  <a href="docs/src/assets/readme/heading-answers.webp#gh-light-mode-only"><img src="docs/src/assets/readme/heading-answers.webp" alt="Straight answers" width="355" /></a>
-</p>
-
-<details>
-<summary><strong>What does it cost?</strong></summary>
-<br />
-
-Nod is free and open source. You bring your own model provider, which bills you directly. With an API model selected, Nod [shows what each task cost](https://nod.n8n.io/docs/use/spending/) and stops at your monthly limit.
-
-</details>
-
-<details>
-<summary><strong>Do I need n8n?</strong></summary>
-<br />
-
-No. Nod is its own app, made by the team behind [n8n](https://n8n.io). It is not the n8n AI Assistant.
-
-</details>
-
-<details>
-<summary><strong>Where does my data go?</strong></summary>
-<br />
-
-Your files, memory, and saved logins stay on the machine running Nod. Your model provider gets what each task needs, and app connections go through a connection service that n8n hosts by default. Nod also shares basic usage data with n8n, on by default for new users. Turn off **Share usage data** in **Settings → Privacy & data** to stop new sends. [Your data and privacy](https://nod.n8n.io/docs/trust/privacy/) lists exactly what is sent.
-
-</details>
-
-<details>
-<summary><strong>Does it work when my laptop is closed?</strong></summary>
-<br />
-
-Not yet. [Schedules](https://nod.n8n.io/docs/use/schedules/) run while the computer that runs Nod is on. Run it on a [Mac mini](https://nod.n8n.io/docs/deploy/mac-mini/) or [your own server](https://nod.n8n.io/docs/deploy/self-host/) to keep it always on. A hosted version is next on the list.
-
-</details>
-
-<details>
-<summary><strong>Can it make mistakes?</strong></summary>
-<br />
-
-Yes. Its [safety check](https://nod.n8n.io/docs/trust/) is a model's judgement, and Nod is a research preview. That is why it asks before anything you didn't ask for, and why everything it did is on record.
-
-Pick a capable model. In 240 test decisions, GPT-6.1 Sol and Claude Opus 5.5 got every one right. Claude Haiku 5.5 let 8 unsafe actions through.
-
-</details>
-
-<br />
-
-<a name="get-nod"></a>
-
-<p align="center">
-  <a href="docs/src/assets/readme/heading-get-dark.webp#gh-dark-mode-only"><img src="docs/src/assets/readme/heading-get-dark.webp" alt="Get Nod" width="209" /></a>
-  <a href="docs/src/assets/readme/heading-get.webp#gh-light-mode-only"><img src="docs/src/assets/readme/heading-get.webp" alt="Get Nod" width="209" /></a>
-</p>
-
-<p align="center">Install the app, connect a model and your apps, then ask for something<br />in the app, on Telegram, or on WhatsApp. Setup takes about ten minutes.</p>
-
-<p align="center">
-  <a href="https://github.com/n8n-io/nod/releases/latest/download/nod-arm64.dmg#gh-dark-mode-only"><img src="docs/src/assets/readme/button-mac-dark.webp" alt="Download for Mac" width="219" /></a>
-  <a href="https://github.com/n8n-io/nod/releases/latest/download/nod-arm64.dmg#gh-light-mode-only"><img src="docs/src/assets/readme/button-mac.webp" alt="Download for Mac" width="219" /></a>
-  <a href="https://github.com/n8n-io/nod/releases/latest/download/nod-Setup-x64.exe#gh-dark-mode-only"><img src="docs/src/assets/readme/button-windows-dark.webp" alt="Download for Windows" width="259" /></a>
-  <a href="https://github.com/n8n-io/nod/releases/latest/download/nod-Setup-x64.exe#gh-light-mode-only"><img src="docs/src/assets/readme/button-windows.webp" alt="Download for Windows" width="259" /></a>
-  <a href="https://nod.n8n.io/docs/#gh-dark-mode-only"><img src="docs/src/assets/readme/button-docs-dark.webp" alt="Read the docs" width="190" /></a>
-  <a href="https://nod.n8n.io/docs/#gh-light-mode-only"><img src="docs/src/assets/readme/button-docs.webp" alt="Read the docs" width="190" /></a>
-</p>
-
-<p align="center">
-  <a href="https://nod.n8n.io/docs/get-started/install-desktop/">Install guide</a> · <a href="https://nod.n8n.io/docs/connect/models/">Connect a model</a> · <a href="https://nod.n8n.io/docs/connect/apps/">Connect your apps</a> · <a href="https://nod.n8n.io/docs/deploy/self-host/">Host your own server</a>
-</p>
-
-<a name="run-from-source"></a>
-
-<details>
-<summary><strong>Run from source</strong></summary>
-<br />
-
-On macOS or Linux, install Node.js 24.21 or later, pnpm, and Docker. Then run:
+## Build & run 🛠️
 
 ```sh
-git clone https://github.com/n8n-io/nod.git
-cd nod
-corepack enable
-pnpm start
+cargo build --release           # build the native binary
+cargo run -p omanod             # open the window on your desktop
 ```
 
-See [Install from source](https://nod.n8n.io/docs/get-started/install-from-source/) for the Linux Vault key and access link, and [`docs/`](docs/README.md) for the docs of this revision.
+Set a key for the provider you want, or start Ollama locally:
 
-</details>
+```sh
+export XAI_API_KEY='...'        # xAI Grok
+export OPENAI_API_KEY='...'     # OpenAI
+export ANTHROPIC_API_KEY='...'  # Anthropic
+export GEMINI_API_KEY='...'     # Google Gemini
+export OLLAMA_API_KEY=''        # not needed; Ollama is the default provider
+```
 
-<br />
+Then open **MODELS** › **REFRESH MODELS**, pick a model, and chat. The selected provider and model are saved for next launch.
 
-<a name="build-with-us"></a>
 
-<p align="center">
-  <a href="docs/src/assets/readme/heading-build-dark.webp#gh-dark-mode-only"><img src="docs/src/assets/readme/heading-build-dark.webp" alt="Build with us" width="280" /></a>
-  <a href="docs/src/assets/readme/heading-build.webp#gh-light-mode-only"><img src="docs/src/assets/readme/heading-build.webp" alt="Build with us" width="280" /></a>
-</p>
+## Themes 🎨
 
-<p align="center">Nod is open source, from the team behind <a href="https://n8n.io">n8n</a>.<br />Read <a href="CONTRIBUTING.md">CONTRIBUTING</a> to send your first change.</p>
+OmaNod follows `~/.local/state/omarchy/current/theme/colors.toml` — change your Omarchy theme and the app repaints within a second. Pick **Omarchy** in Settings for live theming, or choose one of the 23 built-in themes (Tokyo Night, Gruvbox, Rose Pine, Flexoki Light, and friends). Every color is either one of the three theme colors or a fixed mix of background into foreground, exactly like [Omacalc](https://github.com/omacom-io/omacalc).
 
-<p align="center"><a href="https://nod.n8n.io/docs/contribute/apps/">Creating your own connectors</a><br />Use MCP, an HTTP API, or a CLI. Add an app folder, run the required tests, and submit a PR.<br />The guide includes an AI builder skill, approval requirements, and shareable app pages.<br /><a href="https://nod.n8n.io/docs/connect/community-apps/">Browse custom connections</a></p>
 
-<p align="center">
-  <a href="https://github.com/n8n-io/nod/issues/new/choose">Report a bug</a> · <a href="https://github.com/n8n-io/nod/discussions">Share an idea</a> · <a href="https://discord.gg/n8n">Discord</a> · <a href="https://community.n8n.io/c/n8n-labs/48">Forum</a> · <a href="SECURITY.md">Security</a>
-</p>
+## Attribution & license 📄
 
-<p align="center">
-  <sub>Copyright 2026 n8n GmbH · <a href="LICENSE">Apache License 2.0</a> · <a href="NOTICE">Notice</a><br />Bundled third-party assets keep their own terms: <a href="public/fonts/Geist-OFL.txt">Geist</a>, <a href="public/logos/SOURCES.md">provider logos</a>,<br />and the desktop runtime components listed in the app's licenses/COMPONENTS.md.</sub>
-</p>
+This repository is a fork of [n8n-io/nod](https://github.com/n8n-io/nod), copyright 2026 n8n GmbH, licensed under **Apache-2.0**. The upstream [`LICENSE`](./LICENSE) and [`NOTICE`](./NOTICE) are kept intact and must stay with any redistribution.
+
+New Rust code written for OmaNod is **MIT**, © 2026 Abraham Ukachi, as declared in the crate manifests. iA Writer Mono is © 2018 Information Architects Inc., licensed under the SIL Open Font License 1.1 ([`OFL.txt`](./app/ui/fonts/OFL.txt)).
+
+
+## Roadmap 🚀
+
+1. Stop / interrupt, retries off by default, and a single turn lock per conversation.
+2. Tools and skills behind one trust check, with approvals bound to exact arguments.
+3. Local files and computer use on Linux/Omarchy only.
+4. Browser automation and the sandbox that keeps provider keys out of it.
+5. Channels, schedules and notifications — each owner-scoped, each redacted before it leaves the machine.
+
+> The upstream architecture, trust model and docs remain the design reference: [`docs/`](./docs/src/content/docs/how-it-works/architecture.mdx).
