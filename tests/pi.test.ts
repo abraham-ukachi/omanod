@@ -4487,6 +4487,12 @@ test('each model call yields one chat-format trace without image data', async ()
               },
               {
                 type: 'toolCall',
+                id: 'legacy-memory',
+                name: 'manage_personal_context',
+                arguments: { action: 'memory_find', query: 'synthetic legacy query' },
+              },
+              {
+                type: 'toolCall',
                 id: 'learned',
                 name: 'skills',
                 arguments: { action: 'read', name: 'synthetic-flow' },
@@ -4506,6 +4512,7 @@ test('each model call yields one chat-format trace without image data', async ()
             ],
           },
           result('memory', 'memory', 'Synthetic saved note'),
+          result('legacy-memory', 'manage_personal_context', 'Synthetic legacy note'),
           result('learned', 'skills', untrustedBlock('learned skill', 'Synthetic learned flow')),
           result('guide', 'skills', 'Synthetic built-in guide'),
           result('code', 'codemode', 'Synthetic codemode note'),
@@ -4517,6 +4524,8 @@ test('each model call yields one chat-format trace without image data', async ()
   const sent = JSON.stringify(reads.messages);
   for (const value of [
     'Synthetic saved note',
+    'Synthetic legacy note',
+    'synthetic legacy query',
     'Synthetic learned flow',
     'about/sizes',
     'synthetic-flow',

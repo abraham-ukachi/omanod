@@ -73,6 +73,10 @@ export function publicText(value: string) {
   return redactSecretText(value).replace(privateLink, '[private link]');
 }
 
+function languageEvidence(text: string) {
+  return text.length > 600 ? `${text.slice(0, 300)} … ${text.slice(-300)}` : text;
+}
+
 export function languageText(value: string) {
   return redactSecretText(
     value.replace(privateLink, '').replace(/https?:\/\/[^\s<>]+/gi, ''),
@@ -271,7 +275,7 @@ export function createCommunication(options: {
       conversationLanguage: sample,
       userMessages: users.reverse().map((row) => ({
         at: row.created_at.toISOString(),
-        text: languageText(row.text).slice(0, 500),
+        text: languageEvidence(languageText(row.text)),
       })),
     };
   }

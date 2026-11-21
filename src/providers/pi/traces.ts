@@ -19,7 +19,8 @@ const memoryEvidence = new RegExp(
 );
 const learnedSkill = untrustedParts('learned skill').open;
 const memory = (name: string, args: Record<string, unknown> | undefined) =>
-  name === 'memory' && String(args?.action).startsWith('memory_');
+  (name === 'memory' || name === 'manage_personal_context') &&
+  String(args?.action).startsWith('memory_');
 const privateCall = (name: string, args?: Record<string, unknown>) =>
   name === 'codemode' || memory(name, args);
 
