@@ -898,7 +898,15 @@ export function createAgentRuntime(dependencies: {
         context.proactivity?.instructions ??
         systemPrompt(workspace, dependencies.skills, context.taskContext, context.background);
       const compactInstructions = {
-        systemPrompt: system,
+        systemPrompt:
+          context.proactivity?.instructions ??
+          systemPrompt(
+            workspace,
+            dependencies.skills,
+            context.taskContext,
+            context.background,
+            true,
+          ),
         ownerContext: compactOwnerContext(context),
       };
       const shared = {
