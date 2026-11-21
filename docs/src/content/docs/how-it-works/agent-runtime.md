@@ -249,7 +249,7 @@ The prompt has three layers, built in [`src/runtime/prompt.ts`](https://github.c
 | Owner context | Account details, date format, the memory index and the learned skill index                                                                      | Again only when it changes |
 | Turn message  | Mode, time, channel, message ID, reply target, open and recent tasks, memory selected for this request, recent conversation and the instruction | Every turn                 |
 
-One shared prompt serves large and small context windows, with a chat, task or background section for the work at hand. Guides load only when their procedures are needed. The turn message carries data only; how to read it is in the static prompt, so it isn't repeated every turn. Pi's tool guidelines are appended to the shared prompt.
+One prompt serves every model, with a chat, task or background section for the work at hand; small context windows get a shorter variant without the browser procedure. Guides load only when their procedures are needed. The turn message carries data only; how to read it is in the static prompt, so it isn't repeated every turn. Pi's tool guidelines are appended to the shared prompt.
 
 The model receives a small presentation object schema for `send_message`. The server still validates the complete visual before delivery.
 
