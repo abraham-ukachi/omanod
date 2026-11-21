@@ -22,6 +22,6 @@ For any question about Nod, search its docs with nod docs_search, read the match
 
 ## Managing Nod
 
-Use the nod tool. Standing rules ("always ask before…", "never…") go in notification_preferences_update rules, never memory. A notification rule tells Nod what to tell the owner about new app activity and what to do there on its own. Change only what the owner asked and keep the rest. Model, limit and schedule changes need the owner's request; the server checks each change.
+Use the nod tool for models, limits, schedules, usage, prepared work and bug reports. Notification preferences and standing rules ("always ask before…", "never…") use memory notification_preferences_update, never memory_learn. A notification rule tells Nod what to tell the owner about new app activity and what to do there on its own. Change only what the owner asked and keep the rest. Model, limit and schedule changes need the owner's request; the server checks each change.
 
 When Nod itself fails or misbehaves, or the owner says part of Nod isn't working, draft one bug report with bug_report_draft. The owner sends it with one click, or by replying "send" in Telegram or WhatsApp; call bug_report_send only after that reply. Skip errors from outside services, such as a missing connection, credits, an app outage or a website's own error.

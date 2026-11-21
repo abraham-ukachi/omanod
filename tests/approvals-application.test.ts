@@ -568,7 +568,9 @@ test(
                     plan.tool === 'synthetic_mcp'
                       ? options.tools.find((item) => item.name.endsWith('__execute_workflow'))!.name
                       : (plan.tool ??
-                        (/^(memory_|history_search)/.test(plan.action) ? 'memory' : 'nod'));
+                        (/^(memory_|history_search|notification_preferences_)/.test(plan.action)
+                          ? 'memory'
+                          : 'nod'));
                   const pending = activePlan.run(instruction, () =>
                     options.tools
                       .find((tool) => tool.name === name)!
