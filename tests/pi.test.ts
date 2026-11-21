@@ -188,9 +188,9 @@ test('models and routers complete tool discovery inside the endpoint context', a
       const calls =
         id === 'fixture-docs-small'
           ? ([
-              ['nod_tool_search', { query: 'nod_docs', limit: 1 }],
-              ['nod_docs', { action: 'search', query: 'Composio zero data retention' }],
-              ['nod_docs', { action: 'read', id: docsSection!.id }],
+              ['nod_tool_search', { query: 'nod', limit: 1 }],
+              ['nod', { action: 'docs_search', args: { query: 'Composio zero data retention' } }],
+              ['nod', { action: 'docs_read', args: { id: docsSection!.id } }],
               ['nod_tool_search', { query: 'share_file', limit: 1 }],
               ['share_file', { path: 'report.txt' }],
             ] as const)
@@ -450,7 +450,7 @@ test('models and routers complete tool discovery inside the endpoint context', a
       assert.deepEqual(
         started,
         id === 'fixture-docs-small'
-          ? ['tool_search', 'nod_docs', 'nod_docs', 'tool_search', 'share_file']
+          ? ['tool_search', 'nod', 'nod', 'tool_search', 'share_file']
           : id === 'fixture-background'
             ? ['tool_search', 'skills', 'send_message']
             : ['tool_search', 'skills', 'tool_search', 'share_file'],
@@ -1629,7 +1629,7 @@ test('real Pi sessions persist a credential pause and resume without replaying c
                     {
                       type: 'toolCall',
                       id: 'later-call',
-                      name: 'manage_personal_context',
+                      name: 'nod',
                       arguments: {
                         action: 'schedule_create',
                         args: { title: 'This should not execute' },
@@ -1898,7 +1898,7 @@ test('a restarted proactive check within the hour reads its stable context from 
     tail
       .filter((block: any) => block.cache_control?.ttl === '1h')
       .map((block: any) => block.text.slice(0, 20)),
-    ['Owner context. It re', 'Respond to currentIn', '"recentConversation"'],
+    ['Owner context. It re', 'notificationRule is ', '"recentConversation"'],
   );
   assert.deepEqual(tail.at(-1).cache_control, { type: 'ephemeral' });
   for (const [index, body] of bodies.slice(1, 3).entries()) {
@@ -2015,7 +2015,7 @@ test('fresh scheduled sessions put their stable first request on a one-hour Anth
   );
   assert.equal(stable[0].length, 2);
   assert.match(stable[0][0].text, /^Owner context/);
-  assert.match(stable[0][1].text, /^Respond to currentInstruction/);
+  assert.match(stable[0][1].text, /^Request data \(JSON\)/);
   assert.deepEqual(
     stable[0].map((block: any) => block.text),
     stable[1].map((block: any) => block.text),
@@ -2294,9 +2294,9 @@ test('Pi sessions use native tools on the sandbox workspace plus Nod tools', asy
     });
     assert.equal(captured!.noTools, 'builtin');
     const before = scripts.length;
-    const ls = captured!.customTools!.find((tool) => tool.name === 'ls')!;
-    await ls.execute('call', {}, undefined, undefined, undefined as never);
-    assert.deepEqual(ran, ['ls']);
+    const bash = captured!.customTools!.find((tool) => tool.name === 'bash')!;
+    await bash.execute('call', { command: 'true' }, undefined, undefined, undefined as never);
+    assert.deepEqual(ran, ['bash']);
     assert.ok(scripts.length > before);
     assert.ok(scripts.slice(before).every((script) => script.includes(workspace.path)));
     const extension = captured!
@@ -2310,7 +2310,7 @@ test('Pi sessions use native tools on the sandbox workspace plus Nod tools', asy
       undefined,
       undefined as never,
     );
-    assert.deepEqual(ran, ['ls', 'get_search_content']);
+    assert.deepEqual(ran, ['bash', 'get_search_content']);
     const webSearch = extension.tools.get('web_search')!;
     await webSearch.definition.execute(
       'call',
@@ -2319,7 +2319,7 @@ test('Pi sessions use native tools on the sandbox workspace plus Nod tools', asy
       undefined,
       undefined as never,
     );
-    assert.deepEqual(ran, ['ls', 'get_search_content', 'web_search']);
+    assert.deepEqual(ran, ['bash', 'get_search_content', 'web_search']);
     const fetchContent = extension.tools.get('fetch_content')!;
     await writeFile(join(directory, 'host.mp4'), 'synthetic host video');
     const hostFile = async (name: string) =>
@@ -2577,12 +2577,9 @@ test('native Pi tools run only through workspace exec on sandbox paths that do n
   assert.equal(await run('read', { path: 'notes/a.txt' }), 'alpha\nbeta\n');
   await run('edit', { path: 'notes/a.txt', edits: [{ oldText: 'beta', newText: 'gamma' }] });
   assert.equal(await run('read', { path: `${prefix}/workspace/notes/a.txt` }), 'alpha\ngamma\n');
-  assert.equal(await run('ls', {}), 'notes/');
-  assert.equal(await run('ls', { path: 'notes' }), 'a.txt');
-  assert.equal(await run('find', { pattern: '*.txt' }), 'notes/a.txt');
   assert.equal((await run('bash', { command: 'pwd' })).trim(), `${prefix}/workspace`);
   await assert.rejects(run('read', { path: 'missing.txt' }));
-  assert.ok(calls.length >= 8);
+  assert.ok(calls.length >= 5);
   assert.equal(existsSync(prefix), false);
 });
 
@@ -2611,9 +2608,6 @@ test('native Pi tools use Linux workspace paths on a Windows host', async (t) =>
     await execute('read', { path: `${prefix}/workspace/notes/a.txt` }),
     'alpha\ngamma\n',
   );
-  assert.equal(await execute('ls', {}), 'notes/');
-  assert.equal(await execute('ls', { path: 'notes' }), 'a.txt');
-  assert.equal(await execute('find', { pattern: '*.txt' }), 'notes/a.txt');
   assert.equal((await execute('bash', { command: 'pwd' })).trim(), `${prefix}/workspace`);
   assert.deepEqual(
     calls.filter((command) => command.includes('C:') || command.includes('\\workspace')),
@@ -2791,7 +2785,7 @@ test('a turn posts its opening line and final reply, shows the lines between as 
                 .execute({ text: 'There are three.' });
             else
               await input.tools
-                .find((item) => item.name === 'manage_personal_context')!
+                .find((item) => item.name === 'memory')!
                 .execute({ action: 'memory_find', args: { query: 'synthetic' } });
             continued.push(...((await input.nextMessages?.()) ?? []).map((item) => item.text));
           }
@@ -4488,7 +4482,7 @@ test('each model call yields one chat-format trace without image data', async ()
               {
                 type: 'toolCall',
                 id: 'memory',
-                name: 'manage_personal_context',
+                name: 'memory',
                 arguments: { action: 'memory_read', path: 'about/sizes' },
               },
               {
@@ -4511,7 +4505,7 @@ test('each model call yields one chat-format trace without image data', async ()
               },
             ],
           },
-          result('memory', 'manage_personal_context', 'Synthetic saved note'),
+          result('memory', 'memory', 'Synthetic saved note'),
           result('learned', 'skills', untrustedBlock('learned skill', 'Synthetic learned flow')),
           result('guide', 'skills', 'Synthetic built-in guide'),
           result('code', 'codemode', 'Synthetic codemode note'),
@@ -4573,8 +4567,8 @@ test('each model call yields one chat-format trace without image data', async ()
       ],
     },
   };
+  assert.ok(firstInstruction(selectedContext, false, new Set()).includes(privateFact));
   for (const owned of [ownerContext(selectedContext), compactOwnerContext(selectedContext)]) {
-    assert.ok(owned.includes(privateFact));
     const selectedTrace = piModelTrace(
       {
         ...calls[0],

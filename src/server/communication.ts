@@ -271,7 +271,7 @@ export function createCommunication(options: {
       conversationLanguage: sample,
       userMessages: users.reverse().map((row) => ({
         at: row.created_at.toISOString(),
-        text: languageText(row.text),
+        text: languageText(row.text).slice(0, 500),
       })),
     };
   }
