@@ -1898,7 +1898,7 @@ test('a restarted proactive check within the hour reads its stable context from 
     tail
       .filter((block: any) => block.cache_control?.ttl === '1h')
       .map((block: any) => block.text.slice(0, 20)),
-    ['Owner context. It re', 'notificationRule is ', '"recentConversation"'],
+    ['Owner context. It re', 'Respond to currentIn', '"recentConversation"'],
   );
   assert.deepEqual(tail.at(-1).cache_control, { type: 'ephemeral' });
   for (const [index, body] of bodies.slice(1, 3).entries()) {
