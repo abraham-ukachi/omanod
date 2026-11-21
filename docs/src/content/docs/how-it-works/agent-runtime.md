@@ -183,7 +183,7 @@ The `pi-web-access` extension runs in the server process with the server's permi
 
 ### Questions about Nod
 
-Nod searches its own documentation before answering any question about Nod. This covers setup, models, channels, schedules, memory, privacy, safety, troubleshooting, and development. It reads the relevant sections and links to them. The `nod` guide holds this rule, the greeting and ideas guidance, and how Nod's settings work; reading it loads the `nod` tool.
+Nod searches its own documentation before answering any question about Nod. This covers setup, models, channels, schedules, memory, privacy, safety, troubleshooting, and development. It reads the relevant sections and links to them. The `nod` guide holds this rule, the greeting and ideas guidance, how Nod's settings work and when to draft a bug report; reading it loads the `nod` tool.
 
 The `nod` tool's `docs_search` and `docs_read` actions build an index on its first use and keeps it in memory. Search ignores case and accents, while keeping different words distinct. It gives more weight to section titles and terms that occur in fewer sections. Search adjusts for section length and limits the effect of repeated words. Search returns up to five results with short excerpts. A read returns up to 8,000 characters. Longer sections include an offset to read the next part. Neither action calls a model or sends a network request.
 
