@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=OmaNod
+GenericName=Personal Agent
+Comment=An Omarchy-native personal agent that follows your theme
+Exec=omanod %U
+TryExec=omanod
+Icon=omanod
+Terminal=false
+Categories=Utility;
+Keywords=agent;ai;chat;llm;grok;ollama;omarchy;
+StartupNotify=true
+StartupWMClass=omanod

@@ -1,0 +1,62 @@
+---
+title: Install on Omarchy
+description: Build and install the native OmaNod binary, then launch it from the Omarchy app menu.
+editUrl: false
+lastUpdated: false
+---
+
+OmaNod is a native Rust binary. It needs no Node runtime, no server and no account. Both installs below place the binary, its .desktop entry and its icon where the Omarchy launcher finds them.
+
+## User install (no sudo)
+
+From a clone of the fork:
+
+```sh
+git clone https://github.com/abraham-ukachi/omanod.git
+cd omanod
+./scripts/install.sh
+```
+
+Or in one step:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/abraham-ukachi/omanod/main/scripts/install.sh | bash
+```
+
+The script builds with `cargo build --release --locked`, then installs:
+
+| Item | Destination |
+|:-----|:------------|
+| Binary | `$HOME/.local/bin/omanod` |
+| Desktop entry | `$HOME/.local/share/applications/omanod.desktop` |
+| SVG icon | `$HOME/.local/share/icons/hicolor/scalable/apps/omanod.svg` |
+| PNG icons | `$HOME/.local/share/icons/hicolor/<size>x<size>/apps/omanod.png` |
+
+If `$HOME/.local/bin` is not on your `PATH`, add it in your shell profile and restart the shell. The launcher does not need `PATH` because the desktop entry uses the installed absolute path through `TryExec` and `Exec=omanod`.
+
+To uninstall, remove those files. The app's own data stays in `$XDG_DATA_HOME/omanod/omanod.db` and `~/.config/omanod/config.toml`.
+
+## Arch package
+
+A `PKGBUILD` lives in [`packaging/`](https://github.com/abraham-ukachi/omanod/tree/main/packaging). It builds from the GitHub source and installs under `/usr`:
+
+```sh
+git clone https://github.com/abraham-ukachi/omanod.git
+cd omanod/packaging
+makepkg -si
+```
+
+`makepkg -si` resolves `cargo`, `rust`, `fontconfig` and `freetype2` through pacman, builds the release binary, and registers the desktop entry and icons system-wide. Remove it with `sudo pacman -Rns omanod-git`.
+
+## Launch it
+
+Open the Omarchy app launcher with **SUPER + MENU** (on Omarchy's default keymap this is **SUPER + SPACE**; **SUPER + ALT + SPACE** opens the app grid directly), type `OmaNod`, and press Enter. The window class is `omanod`, so Hyprland groups it correctly and the launcher reuses the running window. You can also run `omanod` from a terminal.
+
+On first launch the app reads the current Omarchy theme from `~/.local/state/omarchy/current/theme/colors.toml` and restores your last provider and model from `~/.config/omanod/config.toml`.
+
+## Requirements
+
+- Linux on Omarchy or another Arch-based Hyprland setup.
+- Rust stable and Cargo to build from source.
+- `fontconfig` and `freetype2` at runtime.
+- A model provider: Ollama on `127.0.0.1:11434` works with no key; hosted providers read their keys from environment variables. See [OmaNod](/get-started/omanod/) for the provider list.

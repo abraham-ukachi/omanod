@@ -3160,7 +3160,7 @@ dependencies = [
 
 [[package]]
 name = "omanod"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "omanod-core",
  "serde_json",
@@ -3171,7 +3171,7 @@ dependencies = [
 
 [[package]]
 name = "omanod-core"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "chrono",
  "futures",

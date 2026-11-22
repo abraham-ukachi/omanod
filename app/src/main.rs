@@ -164,6 +164,7 @@ fn fetch_models(config: ProviderConfig, base_url: Option<String>, tx: Sender<UiE
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
   let ui = AppWindow::new()?;
+  let _ = slint::set_xdg_app_id("omanod");
   let config = Config::load()?;
   let store = Store::open()?;
   let theme_source = omarchy_source();

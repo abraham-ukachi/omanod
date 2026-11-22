@@ -1,0 +1,41 @@
+# Maintainer: Abraham Ukachi <abrahamukachi@gmail.com>
+pkgname=omanod-git
+pkgver=0.1.2
+pkgrel=1
+pkgdesc="Omarchy-native personal agent with live themes and streaming models"
+arch=(x86_64 aarch64)
+url="https://github.com/abraham-ukachi/omanod"
+license=(MIT Apache-2.0)
+depends=(fontconfig freetype2 glibc gcc-libs)
+makedepends=(cargo rust)
+provides=(omanod)
+conflicts=(omanod)
+options=(!lto)
+source=("git+${url}.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd omanod
+  git describe --long --tags --abbrev=7 2>/dev/null \
+    | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g' \
+    || printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd omanod
+  cargo build --release --locked -p omanod
+}
+
+package() {
+  cd omanod
+  install -Dm755 target/release/omanod "$pkgdir/usr/bin/omanod"
+  install -Dm644 packaging/omanod.desktop "$pkgdir/usr/share/applications/omanod.desktop"
+  install -Dm644 packaging/icons/omanod.svg "$pkgdir/usr/share/icons/hicolor/scalable/apps/omanod.svg"
+  for size in 16 24 32 48 64 128 256 512; do
+    install -Dm644 "packaging/icons/hicolor/${size}x${size}/apps/omanod.png" \
+      "$pkgdir/usr/share/icons/hicolor/${size}x${size}/apps/omanod.png"
+  done
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 NOTICE "$pkgdir/usr/share/licenses/$pkgname/NOTICE"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+}

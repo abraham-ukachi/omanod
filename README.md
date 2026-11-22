@@ -83,6 +83,37 @@ Versions as built on 2026-11-22:
 | 7 | *`App`* | [app/src/main.rs](./app/src/main.rs) | Wires the UI to the core; a small event loop carries streamed tokens back to the message list |
 
 
+## Install on Omarchy 📦
+
+OmaNod is a native binary: no Electron, no Node runtime, no server. Pick one of the two installs below. Both add a launcher entry, so **SUPER + MENU → OmaNod** works right away.
+
+**One-line user install** (no sudo, binary in `~/.local/bin`):
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/abraham-ukachi/omanod/main/scripts/install.sh | bash
+```
+
+Or from a clone:
+
+```sh
+git clone https://github.com/abraham-ukachi/omanod.git
+cd omanod
+./scripts/install.sh
+```
+
+**Arch package** (system-wide, managed by pacman):
+
+```sh
+git clone https://github.com/abraham-ukachi/omanod.git
+cd omanod/packaging
+makepkg -si
+```
+
+Then open the Omarchy menu with **SUPER + MENU** (or **SUPER + SPACE** on the default keymap), type `OmaNod`, and hit Enter. The app follows your live Omarchy theme on first launch. To remove the user install, delete `~/.local/bin/omanod`, `~/.local/share/applications/omanod.desktop`, and the `omanod` icons under `~/.local/share/icons/hicolor`.
+
+> Full details, including AUR-style usage and troubleshooting, live in [Install on Omarchy](./docs/src/content/docs/get-started/install-omarchy.mdx).
+
+
 ## Build & run 🛠️
 
 ```sh
