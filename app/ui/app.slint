@@ -1,0 +1,383 @@
+import "fonts/iAWriterMonoS-Regular.ttf";
+import "fonts/iAWriterMonoS-Bold.ttf";
+import { Theme } from "theme.slint";
+import { ScrollView } from "std-widgets.slint";
+export { Theme } from "theme.slint";
+
+export struct UiMessage {
+  role: string,
+  text: string,
+  streaming: bool,
+}
+
+export struct UiThread {
+  id: string,
+  title: string,
+}
+
+export struct UiModel {
+  id: string,
+  name: string,
+  provider: string,
+  active: bool,
+}
+
+export struct UiProvider {
+  id: string,
+  name: string,
+  state: string,
+  active: bool,
+}
+
+component NavButton inherits Rectangle {
+  in property <string> label;
+  in property <bool> active;
+  callback clicked();
+
+  height: 34px;
+  border-radius: Theme.radius;
+  background: root.active ? Theme.hover : Colors.transparent;
+
+  HorizontalLayout {
+    padding-left: 12px;
+    Text {
+      text: root.label;
+      color: root.active ? Theme.fg : Theme.muted;
+      font-size: 12px;
+      vertical-alignment: TextVerticalAlignment.center;
+    }
+  }
+
+  TouchArea {
+    clicked => { root.clicked(); }
+  }
+}
+
+component MessageRow inherits Rectangle {
+  in property <UiMessage> message;
+  width: 100%;
+  min-height: 52px;
+  background: root.message.role == "user" ? Theme.surface : Colors.transparent;
+  border-radius: Theme.radius;
+
+  HorizontalLayout {
+    padding: 12px;
+    spacing: 12px;
+    Rectangle {
+      width: 2px;
+      background: root.message.role == "assistant" ? Theme.accent : Colors.transparent;
+    }
+    VerticalLayout {
+      spacing: 6px;
+      Text {
+        text: root.message.role == "user" ? "YOU" : "OMANOD";
+        color: root.message.role == "user" ? Theme.muted : Theme.accent;
+        font-size: 10px;
+      }
+      Text {
+        text: root.message.text;
+        color: Theme.fg;
+        font-size: 14px;
+        wrap: TextWrap.word-wrap;
+      }
+      Text {
+        text: root.message.streaming ? "▌" : "";
+        color: Theme.accent;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+export component AppWindow inherits Window {
+  title: "OmaNod";
+  preferred-width: 1180px;
+  preferred-height: 760px;
+  min-width: 860px;
+  min-height: 560px;
+  background: Theme.bg;
+  default-font-family: "iA Writer Mono S";
+  default-font-size: 13px;
+
+  in-out property <[UiThread]> threads;
+  in-out property <[UiMessage]> messages;
+  in-out property <[UiModel]> models;
+  in-out property <[UiProvider]> providers;
+  in-out property <[string]> themes;
+  in property <string> active-thread;
+  in property <string> model-label: "no model";
+  in property <string> active-provider: "";
+  in property <string> active-model: "";
+  in property <string> status: "ready";
+  in-out property <string> draft;
+  in-out property <int> view: 0;
+
+  callback send();
+  callback new-chat();
+  callback select-thread(string);
+  callback delete-thread(string);
+  callback select-model(string);
+  callback select-provider(string);
+  callback select-theme(string);
+  callback refresh-models();
+
+  HorizontalLayout {
+    Rectangle {
+      width: Theme.sidebar-width;
+      background: Theme.surface;
+
+      VerticalLayout {
+        padding: 14px;
+        spacing: 10px;
+
+        HorizontalLayout {
+          spacing: 8px;
+          Rectangle {
+            width: 8px;
+            height: 8px;
+            y: 5px;
+            border-radius: 4px;
+            background: Theme.accent;
+          }
+          Text {
+            text: "OMANOD";
+            color: Theme.fg;
+            font-size: 15px;
+            font-weight: 700;
+            vertical-alignment: TextVerticalAlignment.center;
+          }
+        }
+
+        Rectangle {
+          height: 38px;
+          border-radius: Theme.radius;
+          background: Theme.hover;
+          HorizontalLayout {
+            Text {
+              text: "+  NEW CONVERSATION";
+              color: Theme.fg;
+              font-size: 12px;
+              vertical-alignment: TextVerticalAlignment.center;
+              horizontal-alignment: TextHorizontalAlignment.center;
+            }
+          }
+          TouchArea { clicked => { root.new-chat(); } }
+        }
+
+        Text {
+          text: "CONVERSATIONS";
+          color: Theme.muted;
+          font-size: 10px;
+        }
+
+        ScrollView {
+          VerticalLayout {
+            spacing: 2px;
+            for thread in root.threads: Rectangle {
+              height: 36px;
+              border-radius: Theme.radius;
+              background: thread.id == root.active-thread ? Theme.hover : Colors.transparent;
+              HorizontalLayout {
+                padding-left: 10px;
+                padding-right: 8px;
+                spacing: 6px;
+                Text {
+                  text: thread.title;
+                  color: Theme.fg;
+                  font-size: 12px;
+                  overflow: TextOverflow.elide;
+                  vertical-alignment: TextVerticalAlignment.center;
+                }
+                Rectangle {
+                  width: 16px;
+                  Text {
+                    text: "x";
+                    color: Theme.muted;
+                    font-size: 12px;
+                    vertical-alignment: TextVerticalAlignment.center;
+                  }
+                  TouchArea { clicked => { root.delete-thread(thread.id); } }
+                }
+              }
+              TouchArea { clicked => { root.select-thread(thread.id); } }
+            }
+          }
+        }
+
+        VerticalLayout {
+          spacing: 2px;
+          NavButton {
+            label: "CHAT";
+            active: root.view == 0;
+            clicked => { root.view = 0; }
+          }
+          NavButton {
+            label: "MODELS";
+            active: root.view == 1;
+            clicked => { root.view = 1; }
+          }
+          NavButton {
+            label: "SETTINGS";
+            active: root.view == 2;
+            clicked => { root.view = 2; }
+          }
+        }
+      }
+    }
+    Rectangle { width: 1px; background: Theme.border; }
+
+    VerticalLayout {
+      Rectangle {
+        height: 48px;
+        HorizontalLayout {
+          padding-left: 20px;
+          padding-right: 20px;
+          spacing: 16px;
+          Text {
+            text: root.view == 0 ? "CONVERSATION" : root.view == 1 ? "MODELS" : "SETTINGS";
+            color: Theme.fg;
+            font-size: 13px;
+            vertical-alignment: TextVerticalAlignment.center;
+          }
+          Rectangle { width: 1px; background: Theme.border; }
+          Text {
+            text: root.model-label;
+            color: Theme.accent;
+            font-size: 12px;
+            vertical-alignment: TextVerticalAlignment.center;
+            overflow: TextOverflow.elide;
+          }
+          Rectangle { horizontal-stretch: 1; }
+          Text {
+            text: root.status;
+            color: Theme.muted;
+            font-size: 11px;
+            vertical-alignment: TextVerticalAlignment.center;
+          }
+        }
+      }
+      Rectangle { height: 1px; background: Theme.border; }
+
+      if root.view == 0: VerticalLayout {
+        ScrollView {
+          VerticalLayout {
+            padding-left: 18px;
+            padding-right: 18px;
+            padding-top: 14px;
+            padding-bottom: 14px;
+            spacing: 10px;
+            for message in root.messages: MessageRow { message: message; }
+          }
+        }
+
+        Rectangle { height: 1px; background: Theme.border; }
+        Rectangle {
+          height: 92px;
+          VerticalLayout {
+            padding: 14px;
+            padding-top: 10px;
+            Rectangle {
+              border-radius: Theme.radius;
+              border-width: 1px;
+              border-color: Theme.border;
+              background: Theme.surface;
+              HorizontalLayout {
+                padding: 10px;
+                spacing: 12px;
+                TextInput {
+                  text <=> root.draft;
+                  color: Theme.fg;
+                  font-size: 13px;
+                  accepted => { root.send(); }
+                }
+                Rectangle {
+                  width: 58px;
+                  border-radius: Theme.radius;
+                  background: Theme.accent;
+                  HorizontalLayout {
+                    Text {
+                      text: "SEND";
+                      color: Theme.accent-text;
+                      font-size: 11px;
+                      vertical-alignment: TextVerticalAlignment.center;
+                      horizontal-alignment: TextHorizontalAlignment.center;
+                    }
+                  }
+                  TouchArea { clicked => { root.send(); } }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      if root.view == 1: ScrollView {
+        VerticalLayout {
+          padding: 18px;
+          spacing: 18px;
+          Text { text: "PROVIDERS"; color: Theme.muted; font-size: 11px; }
+          for provider in root.providers: Rectangle {
+            height: 38px;
+            border-radius: Theme.radius;
+            background: provider.id == root.active-provider ? Theme.hover : Colors.transparent;
+            HorizontalLayout {
+              padding-left: 12px;
+              spacing: 12px;
+              Text { text: provider.name; color: Theme.fg; font-size: 13px; vertical-alignment: TextVerticalAlignment.center; }
+              Rectangle { horizontal-stretch: 1; }
+              Text { text: provider.state; color: Theme.muted; font-size: 11px; vertical-alignment: TextVerticalAlignment.center; }
+            }
+            TouchArea { clicked => { root.select-provider(provider.id); } }
+          }
+          Text { text: "MODELS"; color: Theme.muted; font-size: 11px; }
+          for model in root.models: Rectangle {
+            height: 36px;
+            border-radius: Theme.radius;
+            background: model.id == root.active-model ? Theme.hover : Colors.transparent;
+            HorizontalLayout {
+              padding-left: 12px;
+              spacing: 12px;
+              Text { text: model.name; color: Theme.fg; font-size: 13px; vertical-alignment: TextVerticalAlignment.center; overflow: TextOverflow.elide; }
+              Rectangle { horizontal-stretch: 1; }
+              Text { text: model.provider; color: Theme.muted; font-size: 11px; vertical-alignment: TextVerticalAlignment.center; }
+            }
+            TouchArea { clicked => { root.select-model(model.id); } }
+          }
+          Rectangle {
+            height: 38px;
+            border-radius: Theme.radius;
+            background: Theme.hover;
+            HorizontalLayout {
+              Text { text: "REFRESH MODELS"; color: Theme.fg; font-size: 12px; vertical-alignment: TextVerticalAlignment.center; horizontal-alignment: TextHorizontalAlignment.center; }
+            }
+            TouchArea { clicked => { root.refresh-models(); } }
+          }
+        }
+      }
+
+      if root.view == 2: ScrollView {
+        VerticalLayout {
+          padding: 18px;
+          spacing: 14px;
+          Text { text: "OMARCHY THEME"; color: Theme.muted; font-size: 11px; }
+          Text { text: Theme.name; color: Theme.accent; font-size: 15px; }
+          Text { text: "SELECT A THEME"; color: Theme.muted; font-size: 11px; }
+          for theme in root.themes: Rectangle {
+            height: 32px;
+            border-radius: Theme.radius;
+            background: theme == Theme.name ? Theme.hover : Colors.transparent;
+            HorizontalLayout {
+              padding-left: 12px;
+              Text { text: theme; color: Theme.fg; font-size: 12px; vertical-alignment: TextVerticalAlignment.center; }
+            }
+            TouchArea { clicked => { root.select-theme(theme); } }
+          }
+          Rectangle { height: 12px; }
+          Text { text: "KEYS"; color: Theme.muted; font-size: 11px; }
+          Text { text: "ENTER  send      SHIFT+ENTER  newline      CTRL+1/2/3  views"; color: Theme.fg; font-size: 12px; wrap: TextWrap.word-wrap; }
+          Text { text: "API keys come from environment variables. See README."; color: Theme.muted; font-size: 11px; wrap: TextWrap.word-wrap; }
+        }
+      }
+    }
+  }
+}
